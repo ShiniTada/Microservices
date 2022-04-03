@@ -15,7 +15,7 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
-	//add nice a view of endpoints documentation: HAL Browser
+	//add nice view of endpoints documentation: HAL Browser
 	implementation 'org.springframework.data:spring-data-rest-hal-explorer'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
