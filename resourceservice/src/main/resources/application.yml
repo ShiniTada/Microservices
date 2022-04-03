@@ -1,0 +1,21 @@
+# API
+server.port: 8082
+
+# Datasource
+spring.datasource:
+  url: jdbc:mysql://localhost:3306/resource
+  username: sa
+  password: .......
+
+# Enable multipart uploads
+spring.servlet.multipart:
+  enabled: true
+  max-file-size: 200MB
+  max-request-size: 215MB
+
+#Localstack
+aws:
+  region: us-east-1
+  s3:
+    url: http://localhost:4566
+    bucket-name: music-bucket
