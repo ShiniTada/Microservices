@@ -19,5 +19,3 @@ aws:
   s3:
     url: http://localhost:4566
     bucket-name: music-bucket
-    access-key: localstack
-    secret-key: localstack
