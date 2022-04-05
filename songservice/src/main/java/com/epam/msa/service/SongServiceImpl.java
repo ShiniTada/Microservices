@@ -2,8 +2,6 @@ package com.epam.msa.service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +29,10 @@ public class SongServiceImpl implements SongService {
   }
 
   public Song findById(Long id) throws NoSuchElementException {
-    return songRepository.findById(id).orElseThrow(() -> new NoSuchElementException(
-        String.format("Song with id = %s doesn't exist", id)));
+    return songRepository
+        .findById(id)
+        .orElseThrow(
+            () -> new NoSuchElementException(String.format("Song with id = %s doesn't exist", id)));
   }
 
   @Override
@@ -46,5 +46,4 @@ public class SongServiceImpl implements SongService {
     songRepository.deleteAllById(ids);
     return ids;
   }
-
 }

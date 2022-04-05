@@ -3,74 +3,63 @@ package com.epam.msa.web;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.epam.msa.model.Song;
-import com.epam.msa.service.SongService;
-import com.epam.msa.service.SongServiceImpl;
-import com.epam.msa.web.dto.SongDto;
-import com.epam.msa.web.util.ModelDtoConverter;
+import com.epam.msa.service.MusicFileService;
 
 @RestController
-@RequestMapping(path = "/songs", produces = MediaType.APPLICATION_JSON_VALUE)
-public class SongController {
-  private final SongService songService;
-  private final ModelDtoConverter modelDtoConverter;
+@RequestMapping(path = "/resources", produces = MediaType.APPLICATION_JSON_VALUE)
+public class MusicFileController {
+
+  private final MusicFileService musicFileService;
 
   @Autowired
-  public SongController(SongServiceImpl songService, ModelDtoConverter modelDtoConverter) {
-    this.songService = songService;
-    this.modelDtoConverter = modelDtoConverter;
+  public MusicFileController(MusicFileService musicFileService) {
+    this.musicFileService = musicFileService;
   }
 
-  @PostMapping
+  @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   @ResponseStatus(HttpStatus.OK)
-  public Map<String, Long> create(@RequestBody @Validated SongDto songDto) {
-    Song song = modelDtoConverter.convertToModel(songDto);
-    Long songId = songService.createSong(song);
-    return Map.of("id", songId);
+  public Map<String, Long> upload(@RequestPart(value = "file") MultipartFile file) {
+    Long id = musicFileService.upload(file);
+    return Map.of("id", id);
   }
 
   @GetMapping(path = "/{id}")
-  public SongDto getById(@PathVariable("id") @NotNull Long id) {
-    Song song = songService.findById(id);
-    return modelDtoConverter.convertToDto(song);
-  }
-
-  @GetMapping
-  public Page<SongDto> getAll(Pageable pageable) {
-    Page<Song> songPage = songService.findAll(pageable);
-    return new PageImpl<>(
-        songPage.get().map(modelDtoConverter::convertToDto).collect(Collectors.toList()),
-        pageable,
-        songPage.getTotalElements());
+  public ResponseEntity<org.springframework.core.io.Resource> download(
+      @PathVariable("id") @NotNull Long id) {
+    MusicFile musicFile = musicFileService.download(id);
+    return ResponseEntity.ok()
+        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + musicFile.getFileName())
+        .contentLength(musicFile.getContentLength())
+        .contentType(MediaType.APPLICATION_OCTET_STREAM)
+        .body(new InputStreamResource(musicFile.getInputStream()));
   }
 
   @DeleteMapping
   public Map<String, List<Long>> deleteAllById(@RequestParam("ids") @NotNull List<Long> ids) {
-    List<Long> deletedIds = songService.deleteAllById(ids);
+    List<Long> deletedIds = musicFileService.deleteAllById(ids);
     return Map.of("ids", deletedIds);
   }
 

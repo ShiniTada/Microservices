@@ -1,15 +1,14 @@
-package com.epam.msa;
+package com.epam.msa.configuration;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class Config {
+public class AppConfig {
 
   @Bean
   public ModelMapper modelMapper() {
     return new ModelMapper();
   }
-
 }

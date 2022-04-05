@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 import com.epam.msa.model.Song;
 
 public interface SongService {
-  Long createSong(Song songDto);
+  Long createSong(Song song);
 
   Song findById(Long id);
 

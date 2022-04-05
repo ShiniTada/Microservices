@@ -5,8 +5,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.springframework.stereotype.Component;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +12,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Component
 public class SongDto {
 
   private Long id;
@@ -34,8 +31,7 @@ public class SongDto {
   //  @Pattern(regexp = "")
   private String length;
 
-  @NotNull
-  private Long resourceId;
+  @NotNull private Long resourceId;
 
   @Min(1900)
   @Max(2022)
