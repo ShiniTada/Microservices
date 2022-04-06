@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.epam.msa.web.MusicFile;
+import com.epam.msa.model.MusicFile;
 
 public interface MusicFileService {
   MusicFile download(Long id);

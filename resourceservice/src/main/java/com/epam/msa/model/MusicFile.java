@@ -1,4 +1,4 @@
-package com.epam.msa.web;
+package com.epam.msa.model;
 
 import java.io.InputStream;
 
