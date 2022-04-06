@@ -1,4 +1,4 @@
-package com.epam.msa.model;
+package com.epam.msa.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

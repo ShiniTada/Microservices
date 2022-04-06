@@ -12,6 +12,11 @@ import com.epam.msa.domain.SongDto;
 @FeignClient(name = "songservice", url = "${webclient.songservice.url}")
 public interface SongServiceFeignClient {
 
+  /**
+   * Save song metadata in song service
+   *
+   * @param songDto what to save
+   */
   @PostMapping(value = "/songs")
   Map<String, Long> create(@RequestBody @Validated SongDto songDto);
 }

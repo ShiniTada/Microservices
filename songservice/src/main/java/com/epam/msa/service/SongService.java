@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.epam.msa.model.Song;
+import com.epam.msa.domain.Song;
 
 public interface SongService {
   Long createSong(Song song);
