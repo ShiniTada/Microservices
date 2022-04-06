@@ -8,20 +8,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.epam.msa.model.MusicFile;
-import com.epam.msa.model.Resource;
+import com.epam.msa.domain.AudioFile;
+import com.epam.msa.domain.FileWithResourceId;
+import com.epam.msa.domain.Resource;
+
+import lombok.SneakyThrows;
 
 @Service
-public class MusicFileServiceImpl implements MusicFileService {
+public class AudioFileServiceImpl implements AudioFileService {
 
-  private static final Logger logger = LoggerFactory.getLogger(MusicFileServiceImpl.class);
+  private static final Logger logger = LoggerFactory.getLogger(AudioFileServiceImpl.class);
 
   private final StorageService storageService;
   private final ResourceService resourceService;
   private final ProducerService producerService;
 
   @Autowired
-  public MusicFileServiceImpl(
+  public AudioFileServiceImpl(
       StorageService storageService,
       ResourceService resourceService,
       ProducerService producerService) {
@@ -31,13 +34,14 @@ public class MusicFileServiceImpl implements MusicFileService {
   }
 
   @Override
-  public MusicFile download(Long id) {
+  public AudioFile download(Long id) {
     Resource resource = resourceService.findById(id);
-    MusicFile musicFile = storageService.download(resource.getFilename());
-    musicFile.setId(id);
-    return musicFile;
+    AudioFile audioFile = storageService.download(resource.getFilename());
+    audioFile.setId(id);
+    return audioFile;
   }
 
+  @SneakyThrows
   @Override
   public Long upload(MultipartFile file) {
     String filename = storageService.upload(file);
@@ -47,8 +51,9 @@ public class MusicFileServiceImpl implements MusicFileService {
     Long id = resourceService.createResource(resource);
     logger.info(String.format("Resource[%s] saved", id));
 
-    producerService.sendMessage(id.toString());
-    logger.info(String.format("Send message with id of Resource[%s]", id));
+    FileWithResourceId fileWithResourceId = new FileWithResourceId(file.getBytes(), resource.getId());
+    producerService.sendMessage(fileWithResourceId);
+    logger.info("Send message: file with resource id ", id);
     return id;
   }
 

@@ -2,7 +2,7 @@ package com.epam.msa.service;
 
 import java.util.List;
 
-import com.epam.msa.model.Resource;
+import com.epam.msa.domain.Resource;
 
 public interface ResourceService {
   /**

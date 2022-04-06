@@ -1,10 +1,12 @@
 package com.epam.msa.service;
 
+import com.epam.msa.domain.FileWithResourceId;
+
 public interface ProducerService {
   /**
-   * Convert to proper message type and sent it to Exchange
+   * Convert song metadata to proper message type and sent it to Exchange
    *
-   * @param msg - message
+   * @param fileWithResourceId - what to send
    */
-  void sendMessage(String msg);
+  void sendMessage(FileWithResourceId fileWithResourceId);
 }

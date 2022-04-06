@@ -1,10 +1,11 @@
 package com.epam.msa.service;
 
-public interface ConsumerService {
+public interface ConsumerService<T> {
 
   /**
-   * Resieves messages from queue
-   * @param msg
+   * Receive messages from queue
+   *
+   * @param message - message
    */
-  public void receivedMessage(String msg);
+  public void receivedMessage(T message);
 }

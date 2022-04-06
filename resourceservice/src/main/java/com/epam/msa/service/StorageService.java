@@ -2,7 +2,7 @@ package com.epam.msa.service;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.epam.msa.model.MusicFile;
+import com.epam.msa.domain.AudioFile;
 
 public interface StorageService {
 
@@ -20,7 +20,7 @@ public interface StorageService {
    * @param id - name of searched file
    * @return musicFile
    */
-  MusicFile download(String id);
+  AudioFile download(String id);
 
   /**
    * Delete multipart file from S3 bucket
