@@ -28,6 +28,10 @@ public class AudioParser {
   private static final String PROPERTY_DURATION_MS = "xmpDM:duration";
   private static final String PROPERTY_YEAR = "xmpDM:releaseDate";
 
+  private static final String DEFAULT_UNKNOWN = "unknown";
+  private static final String DEFAULT_LENGTH = "00:00";
+  private static final int DEFAULT_YEAR = 1900;
+
   private static final Logger logger = LoggerFactory.getLogger(AudioParser.class);
 
   public SongDto parseAudioMetadata(byte[] audioFile) {
@@ -51,18 +55,43 @@ public class AudioParser {
       String sYear = metadata.get(PROPERTY_YEAR);
       int year = sYear != null ? Integer.parseInt(sYear) : 0;
 
-      return SongDto.builder()
-          .name(metadata.get(PROPERTY_TITLE))
-          .artist(metadata.get(PROPERTY_ARTIST))
-          .album(metadata.get(PROPERTY_ALBUM))
-          .length(duration)
-          .year(year)
-          .build();
-
+      SongDto songDto =
+          SongDto.builder()
+              .name(metadata.get(PROPERTY_TITLE))
+              .artist(metadata.get(PROPERTY_ARTIST))
+              .album(metadata.get(PROPERTY_ALBUM))
+              .length(duration)
+              .year(year)
+              .build();
+      setupDefaultValues(songDto);
+      return songDto;
     } catch (IOException | SAXException | TikaException e) {
       logger.error(e.getMessage());
       e.printStackTrace();
-      return new SongDto();
+      SongDto songDto = new SongDto();
+      setupDefaultValues(songDto);
+      return songDto;
+    }
+  }
+
+  private void setupDefaultValues(SongDto songDto) {
+    if (songDto.getName() == null || songDto.getName().equals("")) {
+      songDto.setName(DEFAULT_UNKNOWN);
+    }
+    if (songDto.getArtist() == null || songDto.getArtist().equals("")) {
+      songDto.setArtist(DEFAULT_UNKNOWN);
+    }
+    if (songDto.getAlbum() == null || songDto.getAlbum().equals("")) {
+      songDto.setAlbum(DEFAULT_UNKNOWN);
+    }
+    if (songDto.getLength() == null || songDto.getLength().equals("")) {
+      songDto.setLength(DEFAULT_LENGTH);
+    }
+    if (songDto.getLength() == null || songDto.getLength().equals("")) {
+      songDto.setLength(DEFAULT_UNKNOWN);
+    }
+    if (songDto.getYear() == 0) {
+      songDto.setYear(DEFAULT_YEAR);
     }
   }
 }
