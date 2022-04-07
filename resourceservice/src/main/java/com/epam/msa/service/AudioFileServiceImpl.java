@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.epam.msa.domain.AudioFile;
+import com.epam.msa.domain.FileWithResourceId;
 import com.epam.msa.domain.Resource;
 
 import lombok.SneakyThrows;
@@ -50,7 +51,8 @@ public class AudioFileServiceImpl implements AudioFileService {
     Long id = resourceService.createResource(resource);
     logger.info(String.format("Resource[%s] saved", id));
 
-    producerService.sendMessage(resource);
+    FileWithResourceId fileWithResourceId = new FileWithResourceId(file.getBytes(), resource.getId());
+    producerService.sendMessage(fileWithResourceId);
     logger.info("Send message: file with resource id ", id);
     return id;
   }

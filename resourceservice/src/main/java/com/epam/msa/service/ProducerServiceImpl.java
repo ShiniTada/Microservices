@@ -5,16 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.epam.msa.domain.Resource;
+import com.epam.msa.domain.FileWithResourceId;
 
 @Service
 public class ProducerServiceImpl implements ProducerService {
 
   private final RabbitTemplate rabbitTemplate;
-
   @Value("${spring.rabbitmq.exchange}")
   private String exchange;
-
   @Value("${spring.rabbitmq.routingkey}")
   private String routingkey;
 
@@ -24,7 +22,7 @@ public class ProducerServiceImpl implements ProducerService {
   }
 
   @Override
-  public void sendMessage(Resource resource) {
-    rabbitTemplate.convertAndSend(exchange, routingkey, resource);
+  public void sendMessage(FileWithResourceId fileWithResourceId) {
+    rabbitTemplate.convertAndSend(exchange, routingkey, fileWithResourceId);
   }
 }

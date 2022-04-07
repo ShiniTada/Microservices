@@ -1,5 +1,6 @@
 package com.epam.msa.service;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
@@ -33,17 +34,24 @@ public class AudioParser {
 
   private static final Logger logger = LoggerFactory.getLogger(AudioParser.class);
 
-  public SongDto parseAudioMetadata(InputStream audioInputStream) {
+  public SongDto parseAudioMetadata(byte[] audioFile) {
     try {
+      InputStream input = new ByteArrayInputStream(audioFile);
       ContentHandler handler = new DefaultHandler();
       Metadata metadata = new Metadata();
       Parser parser = new Mp3Parser();
       ParseContext parseCtx = new ParseContext();
 
-      parser.parse(audioInputStream, handler, metadata, parseCtx);
-      audioInputStream.close();
+      parser.parse(input, handler, metadata, parseCtx);
+      input.close();
 
-      String duration =parseDuration(metadata.get(PROPERTY_DURATION_MS));
+      Double millisDouble = Double.parseDouble(metadata.get(PROPERTY_DURATION_MS));
+      Long millis = millisDouble.longValue();
+      String duration =
+          String.format(
+              "%02d:%02d",
+              TimeUnit.MILLISECONDS.toMinutes(millis) % TimeUnit.HOURS.toMinutes(1),
+              TimeUnit.MILLISECONDS.toSeconds(millis) % TimeUnit.MINUTES.toSeconds(1));
       String sYear = metadata.get(PROPERTY_YEAR);
       int year = sYear != null ? Integer.parseInt(sYear) : 0;
 
@@ -64,15 +72,6 @@ public class AudioParser {
       setupDefaultValues(songDto);
       return songDto;
     }
-  }
-
-  private String parseDuration(String duration) {
-    Double millisDouble = duration != null ? Double.parseDouble(duration) : 0;
-    Long millis = millisDouble.longValue();
-    return String.format(
-        "%02d:%02d",
-        TimeUnit.MILLISECONDS.toMinutes(millis) % TimeUnit.HOURS.toMinutes(1),
-        TimeUnit.MILLISECONDS.toSeconds(millis) % TimeUnit.MINUTES.toSeconds(1));
   }
 
   private void setupDefaultValues(SongDto songDto) {
