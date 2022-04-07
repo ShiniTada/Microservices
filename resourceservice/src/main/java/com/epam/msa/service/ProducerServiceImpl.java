@@ -5,10 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.epam.msa.domain.FileWithResourceId;
-
 @Service
-public class ProducerServiceImpl implements ProducerService {
+public class ProducerServiceImpl implements ProducerService<Long> {
 
   private final RabbitTemplate rabbitTemplate;
   @Value("${spring.rabbitmq.exchange}")
@@ -22,7 +20,7 @@ public class ProducerServiceImpl implements ProducerService {
   }
 
   @Override
-  public void sendMessage(FileWithResourceId fileWithResourceId) {
-    rabbitTemplate.convertAndSend(exchange, routingkey, fileWithResourceId);
+  public void sendMessage(Long message) {
+    rabbitTemplate.convertAndSend(exchange, routingkey, message);
   }
 }

@@ -1,4 +1,4 @@
-package com.epam.msa.service;
+package com.epam.msa.service.feign;
 
 import java.util.Map;
 

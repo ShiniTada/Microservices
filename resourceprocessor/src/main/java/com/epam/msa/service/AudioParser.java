@@ -1,6 +1,8 @@
 package com.epam.msa.service;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
@@ -45,13 +47,7 @@ public class AudioParser {
       parser.parse(input, handler, metadata, parseCtx);
       input.close();
 
-      Double millisDouble = Double.parseDouble(metadata.get(PROPERTY_DURATION_MS));
-      Long millis = millisDouble.longValue();
-      String duration =
-          String.format(
-              "%02d:%02d",
-              TimeUnit.MILLISECONDS.toMinutes(millis) % TimeUnit.HOURS.toMinutes(1),
-              TimeUnit.MILLISECONDS.toSeconds(millis) % TimeUnit.MINUTES.toSeconds(1));
+      String duration = parseDuration(metadata.get(PROPERTY_DURATION_MS));
       String sYear = metadata.get(PROPERTY_YEAR);
       int year = sYear != null ? Integer.parseInt(sYear) : 0;
 
@@ -72,6 +68,15 @@ public class AudioParser {
       setupDefaultValues(songDto);
       return songDto;
     }
+  }
+
+  private String parseDuration(String duration) {
+    Double millisDouble = duration != null ? Double.parseDouble(duration) : 0;
+    Long millis = millisDouble.longValue();
+    return String.format(
+        "%02d:%02d",
+        TimeUnit.MILLISECONDS.toMinutes(millis) % TimeUnit.HOURS.toMinutes(1),
+        TimeUnit.MILLISECONDS.toSeconds(millis) % TimeUnit.MINUTES.toSeconds(1));
   }
 
   private void setupDefaultValues(SongDto songDto) {
