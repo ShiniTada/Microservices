@@ -1,6 +1,13 @@
 # API
 server.port: 8083
 
+# Localstack
+aws:
+  region: us-east-1
+  s3:
+    url: http://localhost:4566
+    bucket-name: music-bucket
+
 # RabbitMQ
 spring:
   rabbitmq:

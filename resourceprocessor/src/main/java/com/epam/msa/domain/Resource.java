@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Component
-public class FileWithResourceId implements Serializable {
-  private byte[] audioFile;
-  private Long resourceId;
+public class Resource implements Serializable {
+  private Long id;
+  private String filename;
 }
