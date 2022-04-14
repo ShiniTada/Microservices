@@ -50,6 +50,5 @@ public class ConsumerServiceImpl implements ConsumerService<String> {
 
     songServiceFeignClient.create(metadata);
     logger.info(String.format("Send audio metadata with resource id  %s further", resourceId));
-    //    webClientService.saveSongMetadata(audioMetadata);
   }
 }

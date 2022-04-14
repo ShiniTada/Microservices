@@ -30,9 +30,9 @@ public class AudioParser {
   private static final String PROPERTY_DURATION_MS = "xmpDM:duration";
   private static final String PROPERTY_YEAR = "xmpDM:releaseDate";
 
-  private static final String DEFAULT_UNKNOWN = "unknown";
-  private static final String DEFAULT_LENGTH = "00:00";
-  private static final int DEFAULT_YEAR = 1900;
+  public static final String DEFAULT_UNKNOWN = "unknown";
+  public static final String DEFAULT_LENGTH = "00:00";
+  public static final int DEFAULT_YEAR = 1900;
 
   private static final Logger logger = LoggerFactory.getLogger(AudioParser.class);
 
@@ -79,7 +79,7 @@ public class AudioParser {
         TimeUnit.MILLISECONDS.toSeconds(millis) % TimeUnit.MINUTES.toSeconds(1));
   }
 
-  private void setupDefaultValues(SongDto songDto) {
+  protected void setupDefaultValues(SongDto songDto) {
     if (songDto.getName() == null || songDto.getName().equals("")) {
       songDto.setName(DEFAULT_UNKNOWN);
     }
@@ -91,9 +91,6 @@ public class AudioParser {
     }
     if (songDto.getLength() == null || songDto.getLength().equals("")) {
       songDto.setLength(DEFAULT_LENGTH);
-    }
-    if (songDto.getLength() == null || songDto.getLength().equals("")) {
-      songDto.setLength(DEFAULT_UNKNOWN);
     }
     if (songDto.getYear() == 0) {
       songDto.setYear(DEFAULT_YEAR);
