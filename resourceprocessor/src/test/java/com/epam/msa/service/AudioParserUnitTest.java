@@ -25,7 +25,7 @@ class AudioParserUnitTest {
   void setupDefaultValues() {
     // given
     var songDto = new SongDto();
-    SongDto songDtoWithDefaultValues =
+    var songDtoWithDefaultValues =
         SongDto.builder()
             .name(DEFAULT_UNKNOWN)
             .artist(DEFAULT_UNKNOWN)
