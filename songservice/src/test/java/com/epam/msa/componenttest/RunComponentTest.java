@@ -1,4 +1,4 @@
-package com.epam.msa.cucumber;
+package com.epam.msa.componenttest;
 
 import org.junit.runner.RunWith;
 
@@ -9,5 +9,5 @@ import io.cucumber.junit.CucumberOptions;
 @CucumberOptions(
     features = "src/test/resources/features"
 )
-public class RunIntegrationTest {
+public class RunComponentTest {
 }

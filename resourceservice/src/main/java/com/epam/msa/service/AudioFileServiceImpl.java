@@ -35,7 +35,7 @@ public class AudioFileServiceImpl implements AudioFileService {
   @Override
   public AudioFile download(Long id) {
     Resource resource = resourceService.findById(id);
-    AudioFile audioFile = storageService.download(resource.getFilename());
+    AudioFile audioFile = storageService.download(resource);
     audioFile.setId(id);
     return audioFile;
   }

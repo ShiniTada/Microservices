@@ -50,7 +50,7 @@ public class RabbitMQConfig {
     return BindingBuilder.bind(queue()).to(myExchange()).with(routingKey).noargs();
   }
 
-  @Bean
+  @Bean("rabbitMQConnectionFactory")
   public ConnectionFactory connectionFactory() {
     CachingConnectionFactory cachingConnectionFactory = new CachingConnectionFactory(host);
     cachingConnectionFactory.setUsername(username);

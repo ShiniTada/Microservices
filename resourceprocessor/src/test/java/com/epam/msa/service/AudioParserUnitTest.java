@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import com.epam.msa.domain.SongDto;
 
-class AudioParserTest {
+class AudioParserUnitTest {
 
   private AudioParser audioParser;
 

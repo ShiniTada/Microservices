@@ -1,4 +1,4 @@
-package com.epam.msa.cucumber.steps;
+package com.epam.msa.componenttest.steps;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;

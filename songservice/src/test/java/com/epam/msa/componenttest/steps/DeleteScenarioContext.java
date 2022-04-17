@@ -1,12 +1,10 @@
-package com.epam.msa.cucumber.steps;
+package com.epam.msa.componenttest.steps;
 
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-
-import com.epam.msa.web.dto.SongDto;
 
 @Component
 public class DeleteScenarioContext {

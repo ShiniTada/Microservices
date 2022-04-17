@@ -11,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -33,6 +35,8 @@ import com.epam.msa.service.SongServiceImpl;
 import com.epam.msa.web.dto.SongDto;
 import com.epam.msa.web.util.ModelDtoConverter;
 
+import lombok.SneakyThrows;
+
 @RestController
 @RequestMapping(path = "/songs", produces = MediaType.APPLICATION_JSON_VALUE)
 public class SongController {
@@ -46,11 +50,10 @@ public class SongController {
   }
 
   @PostMapping
-  @ResponseStatus(HttpStatus.OK)
-  public Map<String, Long> create(@RequestBody @Validated SongDto songDto) {
+  public ResponseEntity<Map<String, Long>> create(@RequestBody @Validated SongDto songDto) {
     var song = modelDtoConverter.convertToModel(songDto);
     var songId = songService.createSong(song);
-    return Map.of("id", songId);
+    return ResponseEntity.ok().body(Map.of("id", songId));
   }
 
   @GetMapping(path = "/{id}")

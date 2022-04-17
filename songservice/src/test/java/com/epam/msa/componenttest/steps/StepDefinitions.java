@@ -1,4 +1,4 @@
-package com.epam.msa.cucumber.steps;
+package com.epam.msa.componenttest.steps;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -6,15 +6,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestClientException;
 
-import com.epam.msa.cucumber.SongsHttpClient;
+import com.epam.msa.componenttest.SongsHttpClient;
 import com.epam.msa.web.dto.SongDto;
 
 import io.cucumber.java.en.Given;

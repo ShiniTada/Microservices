@@ -19,7 +19,7 @@ spring:
 
 stubrunner:
   work-offline: true
-#  ids: 'com.epam.msa:resourceservice'
+  ids: 'com.epam.msa:resourceservice'
   amqp:
     enabled: true
 

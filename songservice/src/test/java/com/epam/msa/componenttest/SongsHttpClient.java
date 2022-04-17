@@ -1,4 +1,4 @@
-package com.epam.msa.cucumber;
+package com.epam.msa.componenttest;
 
 import static io.cucumber.spring.CucumberTestContext.SCOPE_CUCUMBER_GLUE;
 
@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.junit.platform.commons.util.StringUtils;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.ResponseEntity;

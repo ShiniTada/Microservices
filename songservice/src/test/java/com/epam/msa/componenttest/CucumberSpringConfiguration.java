@@ -1,4 +1,4 @@
-package com.epam.msa.cucumber;
+package com.epam.msa.componenttest;
 
 import org.springframework.boot.test.context.SpringBootTest;
 

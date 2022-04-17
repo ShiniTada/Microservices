@@ -9,6 +9,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.S3Object;
 import com.epam.msa.domain.AudioFile;
+import com.epam.msa.domain.Resource;
 
 import lombok.SneakyThrows;
 
@@ -37,7 +38,8 @@ public class S3StorageService implements StorageService {
   }
 
   @Override
-  public AudioFile download(String filename) {
+  public AudioFile download(Resource resource) {
+    String filename = resource.getFilename();
     S3Object s3Object = amazonS3.getObject(bucketName, filename);
     Long contentLength = s3Object.getObjectMetadata().getContentLength();
 
