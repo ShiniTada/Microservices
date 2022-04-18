@@ -4,7 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.epam.msa.model.Song;
+import com.epam.msa.domain.Song;
 import com.epam.msa.web.dto.SongDto;
 
 @Component

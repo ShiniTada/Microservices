@@ -9,7 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.epam.msa.model.Song;
+import com.epam.msa.domain.Song;
 import com.epam.msa.repo.SongRepository;
 
 @Service

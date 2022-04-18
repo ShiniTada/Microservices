@@ -15,3 +15,8 @@ This service will be used to process MP3 source data.
 This service will not have a web interface and will be used in future for data processing.
 On current step, it should be basic spring boot app with MP3 parsing service implementation, able to extract
 MP3 metadata for further storing of this data using songs metadata api
+
+## Communication
+- asynchronous communication via **messaging RabbitMQ Broker** between Resource Service and Resource Processor.
+- synchronous communication via **OpenFeign** between Resource Processor and Song Service.
+- **Spring Retry Template** for both synchronous and asynchronous communication.

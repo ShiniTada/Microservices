@@ -8,7 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.S3Object;
-import com.epam.msa.web.MusicFile;
+import com.epam.msa.domain.AudioFile;
 
 import lombok.SneakyThrows;
 
@@ -37,11 +37,11 @@ public class S3StorageService implements StorageService {
   }
 
   @Override
-  public MusicFile download(String filename) {
+  public AudioFile download(String filename) {
     S3Object s3Object = amazonS3.getObject(bucketName, filename);
     Long contentLength = s3Object.getObjectMetadata().getContentLength();
 
-    return MusicFile.builder()
+    return AudioFile.builder()
         .fileName(filename)
         .contentLength(contentLength)
         .inputStream(s3Object.getObjectContent())
