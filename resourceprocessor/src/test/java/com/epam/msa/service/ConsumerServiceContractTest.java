@@ -31,7 +31,6 @@ public class ConsumerServiceContractTest {
   public void shouldHandleResourceCreatedEvent() {
     Long resourceId = 1L;
     doReturn(resourceId).when(processor).process(resourceId);
-    boolean isTriggered = stubTrigger.trigger("user.routingkey");
-    assertTrue(isTriggered);
+    assertTrue(stubTrigger.trigger("user.routingkey"));
   }
 }

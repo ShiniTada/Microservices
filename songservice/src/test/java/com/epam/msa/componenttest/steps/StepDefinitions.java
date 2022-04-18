@@ -12,7 +12,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
 
-import com.epam.msa.componenttest.SongsHttpClient;
+import com.epam.msa.componenttest.api.SongsHttpClient;
+import com.epam.msa.componenttest.stepcontext.DeleteScenarioContext;
+import com.epam.msa.componenttest.stepcontext.GetByIdScenarioContext;
+import com.epam.msa.componenttest.stepcontext.PostScenarioContext;
 import com.epam.msa.web.dto.SongDto;
 
 import io.cucumber.java.en.Given;
@@ -32,7 +35,7 @@ public class StepDefinitions {
 
   @Given("user's song")
   public void generatePostRequestBody() {
-    SongDto songDto =
+    var songDto =
         SongDto.builder()
             .name("song_name")
             .artist("artist")
@@ -46,13 +49,13 @@ public class StepDefinitions {
 
   @When("user uploads song")
   public void uploadSong() {
-    ResponseEntity<Map> response = songsHttpClient.post(postScenarioContext.getRequest());
+    var response = songsHttpClient.post(postScenarioContext.getRequest());
     postScenarioContext.setResponse(response);
   }
 
   @Then("save song")
   public void isSongSaved() {
-    Object id = postScenarioContext.getResponse().getBody().get("id");
+    var id = postScenarioContext.getResponse().getBody().get("id");
     assertNotNull(songsHttpClient.getById(id).getBody().getId());
   }
 
@@ -64,7 +67,7 @@ public class StepDefinitions {
 
   @Given("pre-saved song")
   public void getSavedSong() {
-    SongDto songDto =
+     var songDto =
         SongDto.builder()
             .name("song_name")
             .artist("artist")
@@ -73,15 +76,15 @@ public class StepDefinitions {
             .resourceId(2L)
             .year(2022)
             .build();
-    ResponseEntity<Map> response = songsHttpClient.post(songDto);
-    Long id = Long.valueOf((Integer) response.getBody().get("id"));
+    var response = songsHttpClient.post(songDto);
+    var id = Long.valueOf((Integer) response.getBody().get("id"));
     songDto.setId(id);
     getByIdScenarioContext.setExistedSong(songDto);
   }
 
   @When("user requests song by id")
   public void requestSongById() {
-    Long id = getByIdScenarioContext.getExistedSong().getId();
+    var id = getByIdScenarioContext.getExistedSong().getId();
     getByIdScenarioContext.setResponse(songsHttpClient.getById(id));
   }
 
@@ -94,7 +97,7 @@ public class StepDefinitions {
 
   @Given("pre-saved songs")
   public void getSavedSongs() {
-    SongDto songDto =
+    var songDto =
         SongDto.builder()
             .name("song_name")
             .artist("artist")
@@ -103,7 +106,7 @@ public class StepDefinitions {
             .resourceId(2L)
             .year(2022)
             .build();
-    SongDto songDto2 =
+    var songDto2 =
         SongDto.builder()
             .name("song_name2")
             .artist("artist2")
@@ -112,16 +115,16 @@ public class StepDefinitions {
             .resourceId(2L)
             .year(2022)
             .build();
-    ResponseEntity<Map> response = songsHttpClient.post(songDto);
-    Long id = Long.valueOf((Integer) response.getBody().get("id"));
-    ResponseEntity<Map> response2 = songsHttpClient.post(songDto2);
-    Long id2 = Long.valueOf((Integer) response2.getBody().get("id"));
+    var response = songsHttpClient.post(songDto);
+    var id = Long.valueOf((Integer) response.getBody().get("id"));
+    var response2 = songsHttpClient.post(songDto2);
+    var id2 = Long.valueOf((Integer) response2.getBody().get("id"));
     deleteScenarioContext.setExistedSongIds(List.of(id, id2));
   }
 
   @When("user request delete songs")
   public void deleteSongs() {
-    List<Long> ids = deleteScenarioContext.getExistedSongIds();
+    var ids = deleteScenarioContext.getExistedSongIds();
     try {
       songsHttpClient.delete(ids);
       ResponseEntity<Map> response = new ResponseEntity<>(Map.of("ids", ids), HttpStatus.NO_CONTENT);

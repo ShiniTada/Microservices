@@ -52,9 +52,19 @@ dependencies {
     implementation 'com.amazonaws:aws-java-sdk:1.11.852'
     implementation 'org.modelmapper:modelmapper:3.0.0'
     implementation 'commons-io:commons-io:2.10.0'
-    compileOnly 'org.projectlombok:lombok'
+    implementation 'org.projectlombok:lombok:1.18.20'
     runtimeOnly 'mysql:mysql-connector-java'
     annotationProcessor 'org.projectlombok:lombok'
+
+    implementation 'com.google.code.gson:gson:2.9.0'
+
+    implementation 'io.cucumber:cucumber-java:7.2.3'
+    implementation 'io.cucumber:cucumber-spring:7.2.3'
+    compileOnly 'io.cucumber:cucumber-jvm-deps:1.0.6'
+
+    testImplementation 'io.cucumber:cucumber-junit:7.2.3'
+    testImplementation 'org.junit.vintage:junit-vintage-engine:5.8.2'
+    testImplementation 'com.h2database:h2:2.1.212'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.amqp:spring-rabbit-test'

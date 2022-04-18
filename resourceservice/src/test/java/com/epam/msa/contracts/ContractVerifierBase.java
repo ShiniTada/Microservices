@@ -30,7 +30,7 @@ public class ContractVerifierBase {
   @BeforeEach
   public void setup() {
     RestAssuredMockMvc.standaloneSetup(audioFileController);
-    byte[] bytes = "someBytes".getBytes(StandardCharsets.UTF_8);
+    var bytes = "someBytes".getBytes(StandardCharsets.UTF_8);
     Mockito.when(audioFileService.download(1L))
         .thenReturn(new AudioFile(1L, "Test Resource 1", 10000L, new ByteArrayInputStream(bytes)));
   }

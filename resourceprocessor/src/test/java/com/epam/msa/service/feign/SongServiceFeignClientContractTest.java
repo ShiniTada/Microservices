@@ -24,7 +24,7 @@ public class SongServiceFeignClientContractTest {
 
   @Test
   public void createSong() {
-    SongDto song =
+    var songDto =
         SongDto.builder()
             .name("We Are the Champions")
             .artist("Queen")
@@ -33,7 +33,7 @@ public class SongServiceFeignClientContractTest {
             .resourceId(7L)
             .year(1977)
             .build();
-    ResponseEntity<Map<String,Long>> response = songClient.create(song);
+    var response = songClient.create(songDto);
     assertEquals(HttpStatus.OK, response.getStatusCode());
     assertEquals(1L, response.getBody().get("id"));
   }

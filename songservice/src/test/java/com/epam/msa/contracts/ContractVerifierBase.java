@@ -23,7 +23,7 @@ public class ContractVerifierBase {
   @BeforeEach
   public void setup() {
     RestAssuredMockMvc.standaloneSetup(songController);
-    Song song =
+    var song =
         Song.builder()
             .name("We Are the Champions")
             .artist("Queen")

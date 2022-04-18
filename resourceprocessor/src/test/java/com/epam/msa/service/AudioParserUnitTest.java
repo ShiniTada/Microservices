@@ -24,7 +24,7 @@ class AudioParserUnitTest {
   @DisplayName("Check default setting values")
   void setupDefaultValues() {
     // given
-    SongDto songDto = new SongDto();
+    var songDto = new SongDto();
     SongDto songDtoWithDefaultValues =
         SongDto.builder()
             .name(DEFAULT_UNKNOWN)

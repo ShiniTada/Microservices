@@ -1,6 +1,8 @@
 # API
 server:
   port: 8082
+  tomcat:
+    max-http-form-post-size: -1  # infinite
 
 spring:
   # Datasource
@@ -12,8 +14,8 @@ spring:
   servlet:
     multipart:
       enabled: true
-      max-file-size: 200MB
-      max-request-size: 215MB
+      max-file-size: -1
+      max-request-size: -1
   # RabbitMQ
   rabbitmq:
     host: localhost
@@ -29,7 +31,6 @@ spring:
   main:
     allow-bean-definition-overriding: true
 
-
 stubrunner:
   amqp:
     enabled: true
@@ -40,3 +41,10 @@ aws:
   s3:
     url: http://localhost:4566
     bucket-name: music-bucket
+
+# Synchronized Communication
+webclient:
+  songservice:
+    endpoint: http://localhost:8081/songs
+  resourceservice:
+    endpoint: http://localhost:8082/resources

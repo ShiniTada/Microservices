@@ -23,8 +23,8 @@ public class ResourceServiceFeignClientContractTest {
 
   @Test
   public void findResourceById() {
-    ResponseEntity<Map<String, byte[]>> response = resourceClient.getById(1L);
-    byte[] bytes = response.getBody().get("file");
+    var response = resourceClient.getById(1L);
+    var bytes = response.getBody().get("file");
     assertEquals(HttpStatus.OK, response.getStatusCode());
     assertEquals("someBytes", new String(bytes, StandardCharsets.UTF_8));
   }

@@ -19,8 +19,8 @@ public class ResourceServiceImpl implements ResourceService {
   }
 
   @Override
-  public Long createResource(Resource Resource) {
-    return resourceRepository.save(Resource).getId();
+  public Long createResource(Resource resource) {
+    return resourceRepository.save(resource).getId();
   }
 
   @Override
