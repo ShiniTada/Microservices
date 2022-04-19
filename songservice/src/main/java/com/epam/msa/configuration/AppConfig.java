@@ -19,12 +19,12 @@ public class AppConfig {
 
   @Bean
   public RetryTemplate retryTemplate() {
-    SimpleRetryPolicy retryPolicy = new SimpleRetryPolicy();
+    var retryPolicy = new SimpleRetryPolicy();
     retryPolicy.setMaxAttempts(4);
-    FixedBackOffPolicy backOffPolicy = new FixedBackOffPolicy();
+    var backOffPolicy = new FixedBackOffPolicy();
     backOffPolicy.setBackOffPeriod(3000);
 
-    RetryTemplate template = new RetryTemplate();
+    var template = new RetryTemplate();
     template.setRetryPolicy(retryPolicy);
     template.setBackOffPolicy(backOffPolicy);
     return template;

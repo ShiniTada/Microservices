@@ -1,5 +1,6 @@
 # API
-server.port: 8083
+server:
+  port: 8083
 
 # RabbitMQ
 spring:
@@ -11,8 +12,20 @@ spring:
     exchange: user.exchange
     queue: user.queue # queue name that we consume messages from
     routingkey: user.routingkey
+  # stub runner
+  output:
+    ansi:
+      enabled: 'ALWAYS'
+
+stubrunner:
+  work-offline: true
+#  ids: 'com.epam.msa:resourceservice'
+  amqp:
+    enabled: true
 
 # Synchronized Communication
 webclient:
-  songservice.url: http://localhost:8081
-  resourceservice.url: http://localhost:8082
+  songservice:
+    url: http://localhost:8081
+  resourceservice:
+    url: http://localhost:8082

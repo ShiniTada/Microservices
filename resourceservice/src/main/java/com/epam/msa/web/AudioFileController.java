@@ -29,6 +29,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.epam.msa.domain.AudioFile;
 import com.epam.msa.service.AudioFileService;
 
+import lombok.SneakyThrows;
+
 @RestController
 @RequestMapping(path = "/resources", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AudioFileController {
@@ -42,14 +44,12 @@ public class AudioFileController {
 
   @PostMapping
   @ResponseStatus(HttpStatus.OK)
-  public Map<String, Long> upload(
-      @RequestPart(value = "file") MultipartFile file
-  ) {
+  public Map<String, Long> upload(@RequestPart(value = "file") MultipartFile file) {
     Long id = audioFileService.upload(file);
     return Map.of("id", id);
   }
 
-  @GetMapping(path = "/{id}")
+  @GetMapping(path = "/{id}/download")
   public ResponseEntity<org.springframework.core.io.Resource> download(
       @PathVariable("id") @NotNull Long id) {
     AudioFile audioFile = audioFileService.download(id);
@@ -58,6 +58,15 @@ public class AudioFileController {
         .contentLength(audioFile.getContentLength())
         .contentType(MediaType.APPLICATION_OCTET_STREAM)
         .body(new InputStreamResource(audioFile.getInputStream()));
+  }
+
+  @SneakyThrows
+  @GetMapping(path = "/{id}")
+  public ResponseEntity<Map<String, byte[]>> getById(@PathVariable("id") @NotNull Long id) {
+    AudioFile audioFile = audioFileService.download(id);
+    return ResponseEntity.ok()
+        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + audioFile.getFileName())
+        .body(Map.of("file", audioFile.getInputStream().readAllBytes()));
   }
 
   @DeleteMapping
