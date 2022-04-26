@@ -20,3 +20,9 @@ MP3 metadata for further storing of this data using songs metadata api
 - asynchronous communication via **messaging RabbitMQ Broker** between Resource Service and Resource Processor.
 - synchronous communication via **OpenFeign** between Resource Processor and Song Service.
 - **Spring Retry Template** for both synchronous and asynchronous communication.
+
+# launch
+docker-compose up
+
+# delete
+docker-compose down --rmi all

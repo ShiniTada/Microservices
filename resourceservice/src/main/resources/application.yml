@@ -5,11 +5,11 @@ server:
     max-http-form-post-size: -1  # infinite
 
 spring:
-  # Datasource
   datasource:
-    url: jdbc:mysql://localhost:3306/resource
-    username: sa
-    password: .......
+    url: ${DATASOURCE_DATABASE_URL}
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: ${DATASOURCE_USERNAME}
+    password: ${DATASOURCE_PASSWORD}
   # Enable multipart uploads
   servlet:
     multipart:
@@ -18,12 +18,12 @@ spring:
       max-request-size: -1
   # RabbitMQ
   rabbitmq:
-    host: localhost
-    port: 15672
-    username: guest
-    password: guest
-    exchange: user.exchange
-    routingkey: user.routingkey
+    host: ${RABBIT_MQ_HOST}
+    port: ${RABBIT_MQ_PORT}
+    username: ${RABBIT_MQ_USERNAME}
+    password: ${RABBIT_MQ_PASSWORD}
+    exchange: ${RABBIT_MQ_PASSWORD}
+    routingkey: ${RABBIT_MQ_ROUTING_KEY}
   # Stub runner
   output:
     ansi:
@@ -37,14 +37,23 @@ stubrunner:
 
 # Localstack
 aws:
-  region: us-east-1
+  region: ${AWS_REGION}
+  use-default-aws-region-chain: true
   s3:
-    url: http://localhost:4566
-    bucket-name: music-bucket
+    url: ${AWS_S3_URL}
+    bucket-name: ${AWS_S3_BUCKET_NAME}
+logging:
+  level:
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: error
+        internal:
+          InstanceMetadataServiceResourceFetcher: error
 
 # Synchronized Communication
 webclient:
   songservice:
-    endpoint: http://localhost:8081/songs
+    endpoint: ${WEBCLIENT_SONG_SERVICE_ENDPOINT}
   resourceservice:
-    endpoint: http://localhost:8082/resources
+    endpoint: ${WEBCLIENT_RESOURCE_SERVICE_ENDPOINT}
