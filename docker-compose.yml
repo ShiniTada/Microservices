@@ -1,0 +1,107 @@
+version: '3'
+services:
+  song-db:
+    container_name: song-db
+    image: mysql
+    restart: always # restart the container if it stops
+    environment:
+      - MYSQL_DATABASE=song
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_USER=sa
+      - MYSQL_PASSWORD=password
+    ports:
+      - '3307:3306'
+    expose:
+      - '3307'
+    healthcheck:
+      test: [ "CMD", 'mysqladmin', 'ping', '-h', 'localhost', '-P', '3307', '-u', 'root', '-p$$MYSQL_ROOT_PASSWORD' ]
+      timeout: 20s
+      retries: 10
+    volumes:
+      - db:/var/lib/mysql # tells docker and docker-compose to manage the volume
+      - ./songservice/db/init.sql:/docker-entrypoint-initdb.d/init.sql # initialization
+
+  rabbitmq:  #Go to localhost:15672. username & password = guest
+    container_name: rabbitmq
+    image: rabbitmq:management
+    ports:
+      - "5672:5672" # rabbitmq console manager
+      - "15672:15672" # RabbitMQ management UI
+    expose:
+      - '5672'
+
+  localstack:
+    container_name: "localstack"
+    image: localstack/localstack
+    ports:
+      - '4566:4566'
+    environment:
+      DEFAULT_REGION: us-east-1
+      SERVICES: s3
+      EDGE_PORT: 4566
+      AWS_ACCESS_KEY_ID: localstack
+      AWS_SECRET_ACCESS_KEY: localstack
+      AWS_DEFAULT_REGION: us-east-1
+      HOSTNAME: localstack
+    volumes:
+      - './.localstack:/tmp/localstack'
+      - '/var/run/docker.sock:/var/run/docker.sock'
+
+  resource-db:
+    container_name: resource-db
+    image: mysql
+    restart: always
+    environment:
+      - MYSQL_DATABASE=resource
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_USER=sa
+      - MYSQL_PASSWORD=password
+    ports:
+      - '3308:3306'
+    expose:
+      - '3308'
+    depends_on:
+      - localstack
+    volumes:
+      - db:/var/lib/mysql2
+      - ./resourceservice/db/init.sql:/docker-entrypoint-initdb.d/init2.sql
+    healthcheck:
+      test: [ "CMD", 'mysqladmin', 'ping', '-h', 'localhost', '-P', '3308', '-u', 'root', '-p$$MYSQL_ROOT_PASSWORD' ]
+      timeout: 20s
+      retries: 10
+
+  resource-service:
+    container_name: "resource-service"
+    build: resourceservice/
+    ports:
+      - "8082:8082"
+    depends_on:
+      - resource-db
+      - rabbitmq
+    env_file:
+      - "./resourceservice/resourceService.env"
+
+  resource-processor:
+    container_name: "resource-processor"
+    build: resourceprocessor/
+    ports:
+      - "8083:8083"
+    depends_on:
+      - rabbitmq
+    env_file:
+      - "./resourceprocessor/resourceProcessor.env"
+
+  song-service:
+    container_name: "song-service"
+    build: songservice/
+    ports:
+      - "8081:8081"
+    depends_on:
+      song-db:
+        condition: service_healthy
+    env_file:
+      - "./songservice/songService.env"
+
+volumes:
+  db:
+    driver: local
