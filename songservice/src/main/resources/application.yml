@@ -1,9 +1,15 @@
 # API
 server:
   port: 8081
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_SERVER}
 
-# Datasource
 spring:
+  application:
+    name: songservice
+  # Datasource
   datasource:
     url: ${DATASOURCE_DATABASE_URL}
     driverClassName: com.mysql.cj.jdbc.Driver
