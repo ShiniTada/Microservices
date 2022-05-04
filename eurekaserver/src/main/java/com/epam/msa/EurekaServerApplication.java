@@ -13,6 +13,3 @@ public class EurekaServerApplication {
 	}
 
 }
-
-//rename services
-//allow using services only through api
