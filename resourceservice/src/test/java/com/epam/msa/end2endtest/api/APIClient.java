@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;
@@ -28,13 +27,20 @@ import lombok.NoArgsConstructor;
 @Component
 public class APIClient {
 
-  private final RestTemplate restTemplate = new RestTemplate();
-  @Autowired ObjectMapper objectMapper;
-  @Autowired Gson gson;
+  private final RestTemplate restTemplate;
+  private final ObjectMapper objectMapper;
+  private final Gson gson;
+
   @Value("${webclient.resourceservice.endpoint}")
   private String resourceEndpoint;
   @Value("${webclient.songservice.endpoint}")
   private String songEndpoint;
+
+  public APIClient(RestTemplate restTemplate, ObjectMapper objectMapper, Gson gson) {
+    this.restTemplate = restTemplate;
+    this.objectMapper = objectMapper;
+    this.gson = gson;
+  }
 
   public HttpEntity<Map> uploadFile(File audioFile) throws IOException {
     HttpHeaders headers = new HttpHeaders();

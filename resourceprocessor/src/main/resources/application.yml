@@ -1,9 +1,15 @@
 # API
 server:
   port: 8083
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_SERVER}
 
-# RabbitMQ
 spring:
+  application:
+    name: resourceprocessor
+# RabbitMQ
   rabbitmq:
     host: ${RABBIT_MQ_HOST}
     port: ${RABBIT_MQ_PORT}
@@ -19,13 +25,5 @@ spring:
 
 stubrunner:
   work-offline: true
-#  ids: 'com.epam.msa:resourceservice'
   amqp:
     enabled: true
-
-# Synchronized Communication
-webclient:
-  songservice:
-    url: ${WEBCLIENT_SONG_SERVICE_URL}
-  resourceservice:
-    url: ${WEBCLIENT_RESOURCE_SERVICE_URL}

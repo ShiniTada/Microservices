@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.epam.msa.domain.SongDto;
 
-@FeignClient(name = "songservice", url = "${webclient.songservice.url}")
+@FeignClient("songservice")
 public interface SongServiceFeignClient {
 
   /**
